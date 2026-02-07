@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>國立臺北科技大學校外實習－學生滿意度問卷（預覽）</title>
+
+<style>
+/* ===== 螢幕預覽樣式 ===== */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Microsoft JhengHei", Arial, sans-serif;
+  background:#f5f5f5;
+  padding:30px;
+  color:#000;
+}
+.page{
+  background:#fff;
+  max-width:900px;
+  margin:auto;
+  padding:40px 50px;
+  box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+h1{
+  text-align:center;
+  font-size:22px;
+  line-height:1.6;
+  margin:0 0 10px 0;
+}
+p{
+  font-size:14px;
+  line-height:1.8;
+  margin:6px 0;
+}
+.section-title{
+  font-weight:bold;
+  margin-top:25px;
+  font-size:16px;
+}
+.line{
+  display:inline-block;
+  min-width:250px;
+  border-bottom:1px solid #000;
+  padding-bottom:2px;
+}
+.rating-head{
+  text-align:center;
+  margin:10px 0;
+  font-weight:bold;
+}
+.rating-scale{
+  text-align:center;
+  font-size:14px;
+  margin-bottom:10px;
+}
+.item{
+  margin-top:14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.score-row{
+  display:flex;
+  align-items:center;
+  gap:0;
+  margin-top:6px;
+}
+.score-row span{
+  display:inline-block;
+  width:60px;
+  text-align:center;
+  font-size:18px;
+  line-height:1.2;
+}
+.boxline{
+  display:inline-block;
+  border-bottom:1px solid #000;
+  min-width:320px;
+  padding-bottom:2px;
+}
+.small{font-size:13px;color:#333;}
+.footer{
+  margin-top:40px;
+  font-size:13px;
+}
+.buttons{
+  text-align:center;
+  margin-top:30px;
+}
+button{
+  padding:8px 16px;
+  margin:0 10px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+/* ===== 只列印設定 ===== */
+@page{
+  size: A4 portrait;
+  margin: 12mm;
+}
+@media print{
+  html, body{
+    background:#fff !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+  *{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .page{
+    max-width:none !important;
+    width:auto !important;
+    margin:0 !important;
+    padding:0 !important;
+    box-shadow:none !important;
+  }
+  .buttons{display:none !important;}
+  .section-title,
+  #basicInfo,
+  #unitItems,
+  #courseItems,
+  #feedbackBlocks,
+  #suggestions,
+  .footer{
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .item{
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  body{font-size:14px;}
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+
+<h1>國立臺北科技大學校外實習<br>學生滿意度問卷調查表</h1>
+
+<p>同學您好：</p>
+<p>
+為了解同學在參與校外實習課程後，對於自我實務技能提升或是自我成長是否有所助益，並使學校在推行校外實習課程時能更加完備。
+本問卷僅進行整體分析，請同學撥冗詳實填答，您的寶貴意見將對未來的學弟妹們能更加順利進行實習。
+在此致上最高謝意！
+</p>
+<p>敬祝　身體健康，學業進步！</p>
+<p style="text-align:right;">國立臺北科技大學　敬啟</p>
+
+<!-- 一、基本資料 -->
+<div class="section-title">一、基本資料</div>
+
+<div id="basicInfo">
+  <p>學號：<span class="line">{{ survey.student_id }}</span></p>
+  <p>班級：<span class="line">{{ survey.class_name }}</span></p>
+  <p>姓名：<span class="line">{{ survey.student_name }}</span></p>
+
+  <p>實習學年度：<span class="line">{{ survey.internship_year }}</span> 學年度</p>
+  <p>實習次數：第 <span class="line">{{ survey.internship_times }}</span> 次</p>
+
+  {% set internship_type_text = survey.internship_type %}
+  {% if survey.internship_type == "其他" and survey.internship_type_other %}
+    {% set internship_type_text = survey.internship_type ~ "（" ~ survey.internship_type_other ~ "）" %}
+  {% endif %}
+  <p>實習類型：<span class="line">{{ internship_type_text }}</span></p>
+
+  <p>實習單位：<span class="boxline">{{ survey.internship_org }}</span></p>
+
+  <p class="small">填表時間：{{ survey.submitted_at }}</p>
+  <p class="small">問卷編號：{{ survey.student_survey_id }}</p>
+</div>
+
+<!-- 二、學生對實習單位滿意度調查 -->
+<div class="section-title">二、學生對實習單位滿意度調查：</div>
+<p class="small">項目　　5　4　3　2　1（5 最高、1 最低）</p>
+
+{% set unit_items = [
+  ("unit_content_quality","實習內容品質與業界學習"),
+  ("unit_environment","實習環境專業且安全"),
+  ("unit_supervisor_guidance","主管輔導助益性"),
+  ("unit_interaction","主管與同事間互動關係"),
+  ("unit_overtime_hours","加班時數"),
+  ("unit_overall","整體滿意度")
+] %}
+
+<div id="unitItems">
+  {% for key, title in unit_items %}
+    {% set v = survey.get(key) %}
+    <div class="item">{{ title }}
+      <div class="score-row">
+        {% for s in [5,4,3,2,1] %}
+          <span>{{ "■" if v == s else "□" }}{{ s }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<p style="margin-top:14px;">薪資制度：
+  {% set salary_text = survey.salary_system %}
+  {% if survey.salary_system == "其他" and survey.salary_system_other %}
+    {% set salary_text = survey.salary_system ~ "（" ~ survey.salary_system_other ~ "）" %}
+  {% endif %}
+  <span class="line">{{ salary_text }}</span>
+</p>
+
+<p>換算月薪：<span class="line">{{ survey.salary_monthly_equiv }}</span></p>
+<p>加班薪資：<span class="line">{{ survey.overtime_pay }}</span></p>
+
+<!-- 三、學生對實習課程滿意度調查 -->
+<div class="section-title">三、學生對實習課程滿意度調查：</div>
+<p class="small">項目　　5　4　3　2　1（5 最高、1 最低）</p>
+
+{% set course_items = [
+  ("course_admin_support","對系所在實習制度的行政配套措施（申請流程、甄選/面試流程、教師輔導等）感到滿意"),
+  ("course_safety_training","實習前職場安全性平講習對我有所幫助"),
+  ("course_advisor_help","實習期間遇到困難或障礙時，學校輔導老師輔導助益性"),
+  ("course_task_support","系所課程安排及訓練（核心課程、技術扎根教學課程）有助於實習任務運用及完成"),
+  ("course_goal_match","實習的學習內容與系所教育目標相符合"),
+  ("course_positive_help","實習課程對我有正向幫助（認識產業界、求職幫助等）"),
+  ("course_thesis_match","實務研究內容與學位論文主題相符（僅碩博士生填寫）")
+] %}
+
+<div id="courseItems">
+  {% for key, title in course_items %}
+    {% set v = survey.get(key) %}
+    <div class="item">{{ title }}
+      <div class="score-row">
+        {% for s in [5,4,3,2,1] %}
+          <span>{{ "■" if v == s else "□" }}{{ s }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- 四、實習反饋調查 -->
+<div class="section-title">四、實習反饋調查：</div>
+
+<div id="feedbackBlocks">
+  <p>1) 實習過程中發現哪些所學能力是對你有幫助的（可複選）：</p>
+  <p>
+    {% if survey.helpful_abilities|length == 0 %}
+      （無勾選）
+    {% else %}
+      {% for it in survey.helpful_abilities %}
+        • {{ it.item }}{% if it.note %}（{{ it.note }}）{% endif %}<br>
+      {% endfor %}
+    {% endif %}
+  </p>
+
+  <p style="margin-top:14px;">2) 實習過程中發現哪些證照或需再加強哪些技能對未來投入職場有幫助（可複選）：</p>
+  <p>
+    {% if survey.certs_to_improve|length == 0 %}
+      （無勾選）
+    {% else %}
+      {% for it in survey.certs_to_improve %}
+        • {{ it.item }}{% if it.note %}（{{ it.note }}）{% endif %}<br>
+      {% endfor %}
+    {% endif %}
+  </p>
+
+  <p style="margin-top:14px;">3) 實習後會將所得經驗如何運用（可複選）：</p>
+  <p>
+    {% if survey.experience_use|length == 0 %}
+      （無勾選）
+    {% else %}
+      {% for it in survey.experience_use %}
+        • {{ it.item }}{% if it.note %}（{{ it.note }}）{% endif %}<br>
+      {% endfor %}
+    {% endif %}
+  </p>
+
+  <p style="margin-top:14px;">4) 實習後對實習單位認識與運作瞭解：</p>
+
+  {% set ou = survey.org_understanding %}
+  {% set ou_items = [
+    (5,"與實習前瞭解完全相符（100%）"),
+    (4,"與實習前瞭解多數相符（75%）"),
+    (3,"與實習前瞭解部分相符（50%）"),
+    (2,"與實習前瞭解少數相符（25%）"),
+    (1,"與實習前瞭解不相符（0%）")
+  ] %}
+  <div class="item">
+    {% for score, text in ou_items %}
+      <div class="small">{{ "■" if ou == score else "□" }} {{ score }}　{{ text }}</div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 五、其他建議 -->
+<div class="section-title">五、其他建議（所學心得或述明上述不滿意事項）：</div>
+
+<div id="suggestions">
+  <p><strong>1.</strong> {{ survey.suggestion_q1 }}</p>
+  <p><strong>2.</strong> {{ survey.suggestion_q2 }}</p>
+  <p><strong>3.</strong> {{ survey.suggestion_q3 }}</p>
+  <p><strong>4.</strong> {{ survey.suggestion_q4 }}</p>
+</div>
+
+<div class="footer">
+本表流程：各系所→實習學生→各系所→研發處<br>
+113.05
+</div>
+
+<div class="buttons">
+  <button type="button" onclick="location.href='/admin/student'">← 回列表</button>
+  <button type="button" onclick="window.print()">列印</button>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>後台管理 - 問卷列表</title>
+  <style>
+    body{font-family:"Microsoft JhengHei", Arial, sans-serif;background:#f5f7fa;padding:24px;color:#333;}
+    .card{background:#fff;max-width:980px;margin:auto;border-radius:12px;padding:20px 24px;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+    h1{margin:0 0 12px 0;color:#1a73e8;}
+    table{width:100%;border-collapse:collapse;margin-top:12px;}
+    th,td{border:1px solid #e0e0e0;padding:10px;text-align:left;vertical-align:top;}
+    th{background:#155ab6;color:#fff;}
+    tr:nth-child(even){background:#fafafa;}
+    a{color:#1a73e8;text-decoration:none;font-weight:bold;}
+    .topbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+    .muted{color:#666;font-size:13px;line-height:1.7;}
+    .nowrap{white-space:nowrap;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="topbar">
+      <div>
+        <h1>後台管理：雇主滿意度問卷</h1>
+        <p class="muted">點選「查看」可用預覽版式顯示該筆資料，並可列印。</p>
+      </div>
+      <div><a href="/">← 回首頁</a></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:190px;">填寫時間</th>
+          <th style="width:110px;">問卷編號</th>
+          <th>公司名稱</th>
+          <th style="width:160px;">職稱</th>
+          <th style="width:220px;">產業</th>
+          <th style="width:110px;">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td class="nowrap">{{ r.created_at }}</td>
+          <td class="nowrap">{{ r.employer_survey_id }}</td>
+          <td>{{ r.company_name }}</td>
+          <td>{{ r.job_title }}</td>
+          <td>{{ r.industry }}</td>
+          <!-- 關鍵：要連到 /admin/employer/<id> -->
+          <td class="nowrap"><a href="/admin/employer/{{ r.employer_survey_id }}">查看</a></td>
+        </tr>
+        {% endfor %}
+        {% if rows|length == 0 %}
+        <tr><td colspan="6">目前沒有資料</td></tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

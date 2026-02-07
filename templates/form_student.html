@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>國立臺北科技大學校外實習－學生滿意度問卷</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", Arial, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1, h2 { text-align: center; color: #1a73e8; }
+    h2 { margin-top: 0; }
+
+    .section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 25px;
+      margin: 20px auto;
+      max-width: 900px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      word-wrap: break-word;
+    }
+
+    p { line-height: 1.8; }
+
+    input[type="text"], input[type="number"], select, textarea {
+      padding: 6px 10px;
+      margin: 6px 0;
+      width: 100%;
+      max-width: 360px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      transition: border 0.2s;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+      border-color: #1a73e8;
+      outline: none;
+    }
+
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover { background-color: #155ab6; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      word-wrap: break-word;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      word-break: break-word;
+      vertical-align: middle;
+    }
+    table td:first-child, table th:first-child {
+      text-align: left;
+      padding-left: 15px;
+      white-space: normal;
+      word-break: break-word;
+    }
+    table th { background-color: #155ab6; color: white; }
+    table tr:nth-child(even) { background-color: #f9f9f9; }
+    table tr:hover { background-color: #e3f2fd; }
+
+    .radio-group label, .checkbox-group label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+
+    .inline { display: inline-block; margin-right: 14px; }
+
+    .subtle { color: #666; font-size: 13px; margin-top: 6px; }
+
+    .submit-wrap { text-align:center; margin: 20px 0 10px; }
+    .submit-wrap button { min-width: 160px; }
+
+    .hint-required{
+      color:rgb(144, 143, 143);
+      font-weight:bold;
+      margin-left:6px;
+      font-size: 12px;
+    }
+
+    .inline-input {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 6px;
+      max-width: 420px;
+    }
+
+    /* 隱藏必填 proxy（讓瀏覽器跳原生必填提示） */
+    .required-proxy {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>國立臺北科技大學校外實習<br>學生滿意度問卷調查表</h1>
+
+  <div class="section">
+    <p>
+      同學您好：<br>
+      為了解同學在參與校外實習課程後，對於自我實務技能提升或是自我成長是否有所助益，並使學校在推行校外實習課程時能更加完備。
+      本問卷僅進行整體分析，請同學撥冗詳實填答，您的寶貴意見將對未來的學弟妹們能更加順利進行實習。
+      在此致上最高謝意！<br>
+      敬祝　身體健康，學業進步！
+    </p>
+    <p style="text-align:right;">國立臺北科技大學 敬啟</p>
+  </div>
+
+  <form id="surveyForm">
+    <!-- 一、基本資料 -->
+    <div class="section">
+      <h2>一、基本資料</h2>
+
+      <p><strong>系所年級</strong><span class="hint-required">*必填</span></p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1; min-width:220px;">
+          <label>學號：<input type="text" name="student_id" required /></label>
+        </div>
+
+        <div style="flex:1; min-width:220px;">
+          <label>班級：
+            <select name="class_name" id="class_name" required style="max-width:none;">
+              <option value="">請選擇班級</option>
+              <option value="工管大三">工管大三</option>
+              <option value="工管大四">工管大四</option>
+              <option value="工管碩一">工管碩一</option>
+              <option value="工管碩二">工管碩二</option>
+
+              <option value="經管大三">經管大三</option>
+              <option value="經管大四">經管大四</option>
+              <option value="經管碩一">經管碩一</option>
+              <option value="經管碩二">經管碩二</option>
+
+              <option value="資財大三">資財大三</option>
+              <option value="資財大四">資財大四</option>
+              <option value="資財碩一">資財碩一</option>
+              <option value="資財碩二">資財碩二</option>
+
+              <option value="其他">其他</option>
+            </select>
+          </label>
+
+          <input type="text" name="class_name_other" id="class_name_other"
+                 placeholder="請填寫其他班級"
+                 style="display:none; max-width:none;" />
+        </div>
+
+        <div style="flex:1; min-width:220px;">
+          <label>姓名：<input type="text" name="student_name" required /></label>
+        </div>
+      </div>
+
+      <p><strong>實習學年度</strong><span class="hint-required">*必填</span></p>
+      <input
+        type="number"
+        name="internship_year"
+        id="internship_year"
+        required
+        inputmode="numeric"
+        pattern="[0-9]*"
+        min="0"
+        step="1"
+        placeholder="例：113"
+      />
+
+      <p><strong>實習次數</strong><span class="hint-required">*必填</span></p>
+      <input type="number" name="internship_times" required min="1" step="1" placeholder="例：1" />
+
+      <p><strong>實習類型</strong><span class="hint-required">*必填</span></p>
+      <div class="radio-group">
+        <label class="inline"><input type="radio" name="internship_type" value="暑期實習" required /> 暑期實習</label>
+        <label class="inline"><input type="radio" name="internship_type" value="學期實習" /> 學期實習</label>
+        <label class="inline"><input type="radio" name="internship_type" value="學年實習" /> 學年實習</label>
+        <label class="inline">
+          <input type="radio" name="internship_type" value="其他" />
+          其他：
+          <input type="text" name="internship_type_other" id="internship_type_other"
+                 class="inline-input" placeholder="選其他時必填" style="display:none;" />
+        </label>
+      </div>
+
+      <p><strong>實習單位</strong><span class="hint-required">*必填</span></p>
+      <input type="text" name="internship_org" required placeholder="請填寫實習公司/機構名稱" />
+    </div>
+
+    <!-- 二、學生對實習單位滿意度調查 -->
+    <div class="section">
+      <h2>二、學生對實習單位滿意度調查</h2>
+
+      <p class="subtle">以下題目皆為 5～1 分量表（5 最高、1 最低）。</p>
+
+      <table>
+        <tr>
+          <th>項目</th>
+          <th>5</th><th>4</th><th>3</th><th>2</th><th>1</th>
+        </tr>
+
+        <tr>
+          <td>實習內容品質與業界學習
+             <div class="subtle" style="margin-top:6px; line-height:1.6;">
+               5：內容優等<br>
+               4：內容良好<br>
+               3：內容尚可<br>
+               2：內容待改進<br>
+               1：內容劣等
+    </div>
+          </td>
+          <td><input type="radio" name="unit_content_quality" value="5" required></td>
+          <td><input type="radio" name="unit_content_quality" value="4"></td>
+          <td><input type="radio" name="unit_content_quality" value="3"></td>
+          <td><input type="radio" name="unit_content_quality" value="2"></td>
+          <td><input type="radio" name="unit_content_quality" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>實習環境專業且安全
+            <div class="subtle" style="margin-top:6px; line-height:1.6;">
+             5：環境優等<br>
+             4：環境良好<br>
+             3：環境尚可<br>
+             2：環境待改進<br>
+             1：環境劣等
+    </div>
+          </td>
+          <td><input type="radio" name="unit_environment" value="5" required></td>
+          <td><input type="radio" name="unit_environment" value="4"></td>
+          <td><input type="radio" name="unit_environment" value="3"></td>
+          <td><input type="radio" name="unit_environment" value="2"></td>
+          <td><input type="radio" name="unit_environment" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>主管輔導助益性
+            <div class="subtle" style="margin-top:6px; line-height:1.6;">
+             5：極有幫助<br>
+             4：很有幫助<br>
+             3：還算有幫助<br>
+             2：沒什麼幫助<br>
+             1：完全沒幫助
+    </div>
+          </td>
+          <td><input type="radio" name="unit_supervisor_guidance" value="5" required></td>
+          <td><input type="radio" name="unit_supervisor_guidance" value="4"></td>
+          <td><input type="radio" name="unit_supervisor_guidance" value="3"></td>
+          <td><input type="radio" name="unit_supervisor_guidance" value="2"></td>
+          <td><input type="radio" name="unit_supervisor_guidance" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>主管與同事間互動關係
+        <div class="subtle" style="margin-top:6px; line-height:1.6;">
+        5：互動極佳<br>
+        4：互動良好<br>
+        3：互動尚可<br>
+        2：互動待改進<br>
+        1：互動劣等
+    </div>
+      
+          </td>
+          <td><input type="radio" name="unit_interaction" value="5" required></td>
+          <td><input type="radio" name="unit_interaction" value="4"></td>
+          <td><input type="radio" name="unit_interaction" value="3"></td>
+          <td><input type="radio" name="unit_interaction" value="2"></td>
+          <td><input type="radio" name="unit_interaction" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>加班時數
+            <div class="subtle" style="margin-top:6px; line-height:1.6;">
+      5：無加班情形<br>
+      4：每週加班時數 0～3 小時<br>
+      3：每週加班時數 3～6 小時<br>
+      2：每週加班時數 6～9 小時<br>
+      1：每週加班時數超過 10 小時
+    </div>
+          </td>
+          <td><input type="radio" name="unit_overtime_hours" value="5" required></td>
+          <td><input type="radio" name="unit_overtime_hours" value="4"></td>
+          <td><input type="radio" name="unit_overtime_hours" value="3"></td>
+          <td><input type="radio" name="unit_overtime_hours" value="2"></td>
+          <td><input type="radio" name="unit_overtime_hours" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>整體滿意度
+            <div class="subtle" style="margin-top:6px; line-height:1.6;">
+              5：極佳<br>
+              4：良好<br>
+              3：尚可<br>
+              2：待改進<br>
+              1：劣
+    </div>
+          </td>
+          <td><input type="radio" name="unit_overall" value="5" required></td>
+          <td><input type="radio" name="unit_overall" value="4"></td>
+          <td><input type="radio" name="unit_overall" value="3"></td>
+          <td><input type="radio" name="unit_overall" value="2"></td>
+          <td><input type="radio" name="unit_overall" value="1"></td>
+        </tr>
+      </table>
+
+      <div style="margin-top:16px;">
+        <p><strong>薪資制度</strong><span class="hint-required">*必填</span></p>
+        <div class="radio-group">
+          <label class="inline"><input type="radio" name="salary_system" value="無給制" required> 無給制</label>
+          <label class="inline"><input type="radio" name="salary_system" value="時薪"> 時薪</label>
+          <label class="inline"><input type="radio" name="salary_system" value="日薪"> 日薪</label>
+          <label class="inline"><input type="radio" name="salary_system" value="月薪"> 月薪</label>
+          <label class="inline">
+            <input type="radio" name="salary_system" value="其他"> 其他（獎助學金/津貼）：
+            <input type="text" name="salary_system_other" id="salary_system_other"
+                   class="inline-input" placeholder="選其他時必填" style="display:none; max-width:260px;" />
+          </label>
+        </div>
+
+        <p style="margin-top:10px;"><strong>換算月薪</strong><span class="hint-required">*必填</span></p>
+        <div class="radio-group">
+          <label><input type="radio" name="salary_monthly_equiv" value="40000以上" required> 40,000 以上</label>
+          <label><input type="radio" name="salary_monthly_equiv" value="35000~40000"> 35,000 ~ 40,000 元</label>
+          <label><input type="radio" name="salary_monthly_equiv" value="30000~35000"> 30,000 ~ 35,000 元</label>
+          <label><input type="radio" name="salary_monthly_equiv" value="25000~30000"> 25,000 ~ 30,000 元</label>
+          <label><input type="radio" name="salary_monthly_equiv" value="20000~25000"> 20,000 ~ 25,000 元</label>
+          <label><input type="radio" name="salary_monthly_equiv" value="20000以下"> 20,000 元以下</label>
+          <label><input type="radio" name="salary_monthly_equiv" value="無給制"> 無給制</label>
+        </div>
+
+        <p style="margin-top:10px;"><strong>加班薪資</strong><span class="hint-required">*必填</span></p>
+        <div class="radio-group">
+          <label class="inline"><input type="radio" name="overtime_pay" value="依法給付" required> 依法給付</label>
+          <label class="inline"><input type="radio" name="overtime_pay" value="未給付"> 未給付</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 三、學生對實習課程滿意度調查 -->
+    <div class="section">
+      <h2>三、學生對實習課程滿意度調查</h2>
+      <p class="subtle">以下題目皆為 5～1 分量表（5 最高、1 最低）。</p>
+
+      <table>
+        <tr>
+          <th>項目</th>
+          <th>5</th><th>4</th><th>3</th><th>2</th><th>1</th>
+        </tr>
+
+        <tr>
+          <td>對系所在實習制度的行政配套措施（申請流程、甄選/面試流程、教師輔導等）感到滿意</td>
+          <td><input type="radio" name="course_admin_support" value="5" required></td>
+          <td><input type="radio" name="course_admin_support" value="4"></td>
+          <td><input type="radio" name="course_admin_support" value="3"></td>
+          <td><input type="radio" name="course_admin_support" value="2"></td>
+          <td><input type="radio" name="course_admin_support" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>實習前職場安全性平講習對我有所幫助</td>
+          <td><input type="radio" name="course_safety_training" value="5" required></td>
+          <td><input type="radio" name="course_safety_training" value="4"></td>
+          <td><input type="radio" name="course_safety_training" value="3"></td>
+          <td><input type="radio" name="course_safety_training" value="2"></td>
+          <td><input type="radio" name="course_safety_training" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>實習期間遇到困難或障礙時，學校輔導老師輔導助益性</td>
+          <td><input type="radio" name="course_advisor_help" value="5" required></td>
+          <td><input type="radio" name="course_advisor_help" value="4"></td>
+          <td><input type="radio" name="course_advisor_help" value="3"></td>
+          <td><input type="radio" name="course_advisor_help" value="2"></td>
+          <td><input type="radio" name="course_advisor_help" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>系所課程安排及訓練（核心課程、技術扎根教學課程）有助於實習任務運用及完成</td>
+          <td><input type="radio" name="course_task_support" value="5" required></td>
+          <td><input type="radio" name="course_task_support" value="4"></td>
+          <td><input type="radio" name="course_task_support" value="3"></td>
+          <td><input type="radio" name="course_task_support" value="2"></td>
+          <td><input type="radio" name="course_task_support" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>實習的學習內容與系所教育目標相符合</td>
+          <td><input type="radio" name="course_goal_match" value="5" required></td>
+          <td><input type="radio" name="course_goal_match" value="4"></td>
+          <td><input type="radio" name="course_goal_match" value="3"></td>
+          <td><input type="radio" name="course_goal_match" value="2"></td>
+          <td><input type="radio" name="course_goal_match" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>實習課程對我有正向幫助（認識產業界、求職幫助等）</td>
+          <td><input type="radio" name="course_positive_help" value="5" required></td>
+          <td><input type="radio" name="course_positive_help" value="4"></td>
+          <td><input type="radio" name="course_positive_help" value="3"></td>
+          <td><input type="radio" name="course_positive_help" value="2"></td>
+          <td><input type="radio" name="course_positive_help" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>實務研究內容與學位論文主題相符（僅碩博士生填寫）</td>
+          <td><input type="radio" name="course_thesis_match" value="5" required></td>
+          <td><input type="radio" name="course_thesis_match" value="4"></td>
+          <td><input type="radio" name="course_thesis_match" value="3"></td>
+          <td><input type="radio" name="course_thesis_match" value="2"></td>
+          <td><input type="radio" name="course_thesis_match" value="1"></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- 四、實習反饋調查 -->
+    <div class="section">
+      <h2>四、實習反饋調查</h2>
+
+      <!-- 四-1：加上「至少勾選一項」提示 -->
+      <div class="section" id="section_helpful" style="box-shadow:none; border:1px solid #e7e7e7;">
+        <h3 style="margin:0 0 10px;">1) 實習過程中發現哪些所學能力對你有幫助（可複選）<span class="hint-required">*至少勾選 1 項</span></h3>
+
+        <!-- 隱藏 proxy：讓四-1 沒勾時跳原生必填提示 -->
+        <input type="text" id="helpful_required_proxy" class="required-proxy" required tabindex="-1" aria-hidden="true" />
+
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="helpful_abilities[]" value="專業能力"> 專業能力</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="外語能力"> 外語能力</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="溝通表達"> 溝通表達</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="人際互動"> 人際互動</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="思考與問題解決"> 思考與問題解決</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="創新能力"> 創新能力</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="職場態度(抗壓穩定性/時間管理)"> 職場態度（如抗壓穩定性、時間管理）</label>
+          <label><input type="checkbox" name="helpful_abilities[]" value="普通電腦應用(文書/簡報/試算表/電郵)"> 普通電腦應用（文書、簡報、試算表、電郵書寫等）</label>
+
+          <label>
+            <input type="checkbox" name="helpful_abilities[]" value="其他" id="helpful_abilities_other_cb">
+            其他：
+            <input type="text" name="helpful_abilities_other" id="helpful_abilities_other"
+                   class="inline-input" placeholder="勾選其他時必填" style="display:none; max-width:420px;" />
+          </label>
+        </div>
+      </div>
+
+      <div class="section" id="section_certs" style="box-shadow:none; border:1px solid #e7e7e7;">
+        <h3 style="margin:0 0 10px;">2) 哪些證照或需再加強哪些技能對未來投入職場有幫助（可複選）<span class="hint-required">*至少勾選 1 項</span></h3>
+
+        <!-- 隱藏 proxy：讓四-2 沒勾時跳原生必填提示 -->
+        <input type="text" id="certs_required_proxy" class="required-proxy" required tabindex="-1" aria-hidden="true" />
+
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="certs_to_improve[]" value="外語證照"> 外語證照</label>
+
+          <label>
+            <input type="checkbox" name="certs_to_improve[]" value="專業證照" id="cert_professional_cb">
+            專業證照如：
+            <input type="text" name="cert_professional_note" id="cert_professional_note"
+                   class="inline-input" placeholder="勾選專業證照時請填" style="display:none; max-width:420px;" />
+          </label>
+
+          <label>
+            <input type="checkbox" name="certs_to_improve[]" value="其他" id="cert_other_cb">
+            其他：
+            <input type="text" name="cert_other_note" id="cert_other_note"
+                   class="inline-input" placeholder="勾選其他時必填" style="display:none; max-width:420px;" />
+          </label>
+        </div>
+      </div>
+
+      <div class="section" id="section_experience" style="box-shadow:none; border:1px solid #e7e7e7;">
+        <h3 style="margin:0 0 10px;">3) 實習後會將所得經驗如何運用（可複選）<span class="hint-required">*至少勾選 1 項</span></h3>
+
+        <!-- 隱藏 proxy：讓四-3 沒勾時跳原生必填提示 -->
+        <input type="text" id="experience_required_proxy" class="required-proxy" required tabindex="-1" aria-hidden="true" />
+
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="experience_use[]" value="未來工作實務執行經驗"> 未來工作實務執行經驗</label>
+          <label><input type="checkbox" name="experience_use[]" value="就業之產業別選擇考量"> 就業之產業別選擇考量</label>
+          <label><input type="checkbox" name="experience_use[]" value="升學之研究方向選擇考量"> 升學之研究方向選擇考量</label>
+          <label>
+            <input type="checkbox" name="experience_use[]" value="其他" id="experience_use_other_cb">
+            其他：
+            <input type="text" name="experience_use_other" id="experience_use_other"
+                   class="inline-input" placeholder="勾選其他時必填" style="display:none; max-width:420px;" />
+          </label>
+        </div>
+      </div>
+
+      <div class="section" style="box-shadow:none; border:1px solid #e7e7e7;">
+        <h3 style="margin:0 0 10px;">4) 實習後對實習單位認識與運作瞭解（單選）<span class="hint-required">*必填</span></h3>
+        <div class="radio-group">
+          <label><input type="radio" name="org_understanding" value="5" required> 5：與實習前瞭解完全相符（100%）</label>
+          <label><input type="radio" name="org_understanding" value="4"> 4：與實習前瞭解多數相符（75%）</label>
+          <label><input type="radio" name="org_understanding" value="3"> 3：與實習前瞭解部分相符（50%）</label>
+          <label><input type="radio" name="org_understanding" value="2"> 2：與實習前瞭解少數相符（25%）</label>
+          <label><input type="radio" name="org_understanding" value="1"> 1：與實習前瞭解不相符（0%）</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 五、其他建議：四個子題 -->
+    <div class="section">
+      <h2>五、其他建議</h2>
+
+      <p><strong>1. 你對系所為你校外實習所準備的整體情況有何看法？</strong><span class="hint-required">*必填</span></p>
+      <textarea name="suggestion_q1" rows="4" required style="width:100%; max-width:none;" placeholder="請在此填寫..."></textarea>
+
+      <p style="margin-top:12px;"><strong>2. 你覺得系上可以改進校外實習的地方有哪些？</strong><span class="hint-required">*必填</span></p>
+      <textarea name="suggestion_q2" rows="4" required style="width:100%; max-width:none;" placeholder="請在此填寫..."></textarea>
+
+      <p style="margin-top:12px;"><strong>3. 你是否認為實習經歷對你的簡歷和未來找工作有所幫助，讓你比其他人更具競爭力？</strong><span class="hint-required">*必填</span></p>
+      <textarea name="suggestion_q3" rows="4" required style="width:100%; max-width:none;" placeholder="請在此填寫..."></textarea>
+
+      <p style="margin-top:12px;"><strong>4. 就你在系上的所學經歷，你對系上還有什麼其他建議？</strong><span class="hint-required">*必填</span></p>
+      <textarea name="suggestion_q4" rows="4" required style="width:100%; max-width:none;" placeholder="請在此填寫..."></textarea>
+
+      <div class="subtle">提示：目前先以「每題至少 10 字」做前端檢核。</div>
+    </div>
+
+    <div class="submit-wrap">
+      <button type="submit">送出問卷</button>
+    </div>
+  </form>
+
+  <script>
+    const POST_URL = "http://127.0.0.1:5000/student/submit";
+
+
+    function formDataToObject(formData) {
+      const obj = {};
+      formData.forEach((value, key) => {
+        if (obj[key] !== undefined) {
+          if (!Array.isArray(obj[key])) obj[key] = [obj[key]];
+          obj[key].push(value);
+        } else {
+          obj[key] = value;
+        }
+      });
+      return obj;
+    }
+
+    function ensureArray(v) {
+      if (v === undefined || v === null) return [];
+      return Array.isArray(v) ? v : [v];
+    }
+
+    function requireRadioGroups(raw, names, friendlyMap = {}) {
+      for (const n of names) {
+        if (!raw[n]) {
+          alert(`請完成必填題目：${friendlyMap[n] || n}`);
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // 實習學年度：硬性只留數字（避免 e / 小數 / 負號）
+    const yearInput = document.getElementById("internship_year");
+    yearInput.addEventListener("input", () => {
+      yearInput.value = String(yearInput.value).replace(/\D/g, "");
+    });
+    yearInput.addEventListener("keydown", (e) => {
+      if (["e", "E", "+", "-", "."].includes(e.key)) e.preventDefault();
+    });
+
+    // 班級：選「其他」才顯示並必填
+    const classSelect = document.getElementById("class_name");
+    const classOtherInput = document.getElementById("class_name_other");
+    function toggleClassOther() {
+      const isOther = classSelect.value === "其他";
+      classOtherInput.style.display = isOther ? "block" : "none";
+      classOtherInput.required = isOther;
+      if (!isOther) classOtherInput.value = "";
+    }
+    classSelect.addEventListener("change", toggleClassOther);
+    toggleClassOther();
+
+    // 通用：選到某個「radio 值」才顯示/必填文字框
+    function bindRequiredByRadioValue({ radioName, triggerValue, inputEl }) {
+      const radios = document.querySelectorAll(`input[type="radio"][name="${radioName}"]`);
+      if (!radios.length || !inputEl) return;
+
+      const toggle = () => {
+        const checked = document.querySelector(`input[type="radio"][name="${radioName}"]:checked`);
+        const on = checked && checked.value === triggerValue;
+        inputEl.style.display = on ? "inline-block" : "none";
+        inputEl.required = !!on;
+        if (!on) inputEl.value = "";
+      };
+
+      radios.forEach(r => r.addEventListener("change", toggle));
+      toggle();
+      return toggle;
+    }
+
+    // 通用：勾選某個 checkbox 才顯示/必填文字框
+    function bindRequiredByCheckbox({ checkboxEl, inputEl }) {
+      if (!checkboxEl || !inputEl) return;
+
+      const toggle = () => {
+        const on = checkboxEl.checked;
+        inputEl.style.display = on ? "inline-block" : "none";
+        inputEl.required = !!on;
+        if (!on) inputEl.value = "";
+      };
+
+      checkboxEl.addEventListener("change", toggle);
+      toggle();
+      return toggle;
+    }
+
+    // 核心：checkbox 群組「至少勾一個」用瀏覽器原生必填提示
+    function bindAtLeastOneCheckboxNative({ checkboxName, proxyInputId, message }) {
+      const boxes = Array.from(document.querySelectorAll(`input[type="checkbox"][name="${checkboxName}"]`));
+      const proxy = document.getElementById(proxyInputId);
+      if (!boxes.length || !proxy) return null;
+
+      const update = () => {
+        const ok = boxes.some(b => b.checked);
+        proxy.value = ok ? "ok" : "";
+        proxy.setCustomValidity(ok ? "" : message);
+      };
+
+      boxes.forEach(b => b.addEventListener("change", update));
+      update();
+      return update;
+    }
+
+    // 1) 實習類型：選「其他」才顯示 + required
+    const toggleInternTypeOther = bindRequiredByRadioValue({
+      radioName: "internship_type",
+      triggerValue: "其他",
+      inputEl: document.getElementById("internship_type_other")
+    });
+
+    // 2) 薪資制度：選「其他」才顯示 + required
+    const toggleSalaryOther = bindRequiredByRadioValue({
+      radioName: "salary_system",
+      triggerValue: "其他",
+      inputEl: document.getElementById("salary_system_other")
+    });
+
+    // 3) 四-1 所學能力：勾選「其他」才顯示 + required
+    const toggleHelpfulOther = bindRequiredByCheckbox({
+      checkboxEl: document.getElementById("helpful_abilities_other_cb"),
+      inputEl: document.getElementById("helpful_abilities_other")
+    });
+
+    // 4) 四-2 證照：勾選「專業證照」才顯示 + required
+    const toggleCertProfessional = bindRequiredByCheckbox({
+      checkboxEl: document.getElementById("cert_professional_cb"),
+      inputEl: document.getElementById("cert_professional_note")
+    });
+
+    // 5) 四-2 證照：勾選「其他」才顯示 + required
+    const toggleCertOther = bindRequiredByCheckbox({
+      checkboxEl: document.getElementById("cert_other_cb"),
+      inputEl: document.getElementById("cert_other_note")
+    });
+
+    // 6) 四-3 經驗運用：勾選「其他」才顯示 + required
+    const toggleExperienceOther = bindRequiredByCheckbox({
+      checkboxEl: document.getElementById("experience_use_other_cb"),
+      inputEl: document.getElementById("experience_use_other")
+    });
+
+    // 7) 四-1 / 四-2 / 四-3：至少勾選 1 項（原生泡泡提示）
+    const updateHelpfulAtLeastOne = bindAtLeastOneCheckboxNative({
+      checkboxName: "helpful_abilities[]",
+      proxyInputId: "helpful_required_proxy",
+      message: "「實習過程中發現哪些所學能力對你有幫助」請至少勾選一個選項。"
+    });
+
+    const updateCertsAtLeastOne = bindAtLeastOneCheckboxNative({
+      checkboxName: "certs_to_improve[]",
+      proxyInputId: "certs_required_proxy",
+      message: "「哪些證照或需再加強哪些技能」請至少勾選一個選項。"
+    });
+
+    const updateExperienceAtLeastOne = bindAtLeastOneCheckboxNative({
+      checkboxName: "experience_use[]",
+      proxyInputId: "experience_required_proxy",
+      message: "「實習後會將所得經驗如何運用」請至少勾選一個選項。"
+    });
+
+    function rerunAllTogglesAfterReset() {
+      toggleClassOther();
+      if (toggleInternTypeOther) toggleInternTypeOther();
+      if (toggleSalaryOther) toggleSalaryOther();
+      if (toggleHelpfulOther) toggleHelpfulOther();
+      if (toggleCertProfessional) toggleCertProfessional();
+      if (toggleCertOther) toggleCertOther();
+      if (toggleExperienceOther) toggleExperienceOther();
+
+      // reset 後也要更新「至少勾一個」的 proxy 狀態
+      if (updateHelpfulAtLeastOne) updateHelpfulAtLeastOne();
+      if (updateCertsAtLeastOne) updateCertsAtLeastOne();
+      if (updateExperienceAtLeastOne) updateExperienceAtLeastOne();
+    }
+
+    document.getElementById("surveyForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      // 送出前先更新 proxy（避免某些瀏覽器狀態不同步）
+      if (updateHelpfulAtLeastOne) updateHelpfulAtLeastOne();
+      if (updateCertsAtLeastOne) updateCertsAtLeastOne();
+      if (updateExperienceAtLeastOne) updateExperienceAtLeastOne();
+
+      // 先跑原生 required 驗證（會跳泡泡）
+      if (!this.reportValidity()) return;
+
+      if (!confirm("確定要送出問卷嗎？")) return;
+
+      const formData = new FormData(this);
+      const raw = formDataToObject(formData);
+
+      // 二：必填單選
+      const mustRadios = [
+        "unit_content_quality",
+        "unit_environment",
+        "unit_supervisor_guidance",
+        "unit_interaction",
+        "unit_overtime_hours",
+        "unit_overall",
+        "salary_system",
+        "salary_monthly_equiv",
+        "overtime_pay"
+      ];
+      const friendly = {
+        unit_content_quality: "實習內容品質",
+        unit_environment: "實習環境",
+        unit_supervisor_guidance: "主管輔導助益性",
+        unit_interaction: "主管與同事互動",
+        unit_overtime_hours: "加班時數",
+        unit_overall: "整體滿意度",
+        salary_system: "薪資制度",
+        salary_monthly_equiv: "換算月薪",
+        overtime_pay: "加班薪資"
+      };
+      if (!requireRadioGroups(raw, mustRadios, friendly)) return;
+
+      // 三：必填單選
+      const mustCourse = [
+        "course_admin_support",
+        "course_safety_training",
+        "course_advisor_help",
+        "course_task_support",
+        "course_goal_match",
+        "course_positive_help",
+        "course_thesis_match"
+      ];
+      const friendly2 = {
+        course_admin_support: "實習制度行政配套措施",
+        course_safety_training: "實習前職場安全性平講習",
+        course_advisor_help: "學校輔導老師助益性",
+        course_task_support: "課程安排及訓練助益性",
+        course_goal_match: "學習內容與教育目標相符",
+        course_positive_help: "實習課程正向幫助",
+        course_thesis_match: "實務研究與論文主題相符"
+      };
+      if (!requireRadioGroups(raw, mustCourse, friendly2)) return;
+
+      // 四：必填單選
+      if (!requireRadioGroups(raw, ["org_understanding"], { org_understanding: "實習後對實習單位認識與運作瞭解" })) return;
+
+      // 五：四題各自最低字數
+      const MIN_LEN = 10;
+      const s1 = (raw.suggestion_q1 || "").trim();
+      const s2 = (raw.suggestion_q2 || "").trim();
+      const s3 = (raw.suggestion_q3 || "").trim();
+      const s4 = (raw.suggestion_q4 || "").trim();
+
+      if (s1.length < MIN_LEN) { alert(`第 5-1 題建議至少 ${MIN_LEN} 字（目前 ${s1.length} 字）。`); return; }
+      if (s2.length < MIN_LEN) { alert(`第 5-2 題建議至少 ${MIN_LEN} 字（目前 ${s2.length} 字）。`); return; }
+      if (s3.length < MIN_LEN) { alert(`第 5-3 題建議至少 ${MIN_LEN} 字（目前 ${s3.length} 字）。`); return; }
+      if (s4.length < MIN_LEN) { alert(`第 5-4 題建議至少 ${MIN_LEN} 字（目前 ${s4.length} 字）。`); return; }
+
+      const payload = {
+        basic: {
+          student_id: raw.student_id,
+          class_name: raw.class_name === "其他" ? (raw.class_name_other || "").trim() : raw.class_name,
+          student_name: raw.student_name,
+          internship_year: Number(raw.internship_year),
+          internship_times: Number(raw.internship_times),
+          internship_type: raw.internship_type,
+          internship_type_other: raw.internship_type === "其他" ? (raw.internship_type_other || null) : null,
+          internship_org: raw.internship_org
+        },
+
+        internship_unit_satisfaction: {
+          unit_content_quality: Number(raw.unit_content_quality),
+          unit_environment: Number(raw.unit_environment),
+          unit_supervisor_guidance: Number(raw.unit_supervisor_guidance),
+          unit_interaction: Number(raw.unit_interaction),
+          unit_overtime_hours: Number(raw.unit_overtime_hours),
+          unit_overall: Number(raw.unit_overall),
+          salary_system: raw.salary_system,
+          salary_system_other: raw.salary_system === "其他" ? (raw.salary_system_other || null) : null,
+          salary_monthly_equiv: raw.salary_monthly_equiv,
+          overtime_pay: raw.overtime_pay
+        },
+
+        internship_course_satisfaction: {
+          course_admin_support: Number(raw.course_admin_support),
+          course_safety_training: Number(raw.course_safety_training),
+          course_advisor_help: Number(raw.course_advisor_help),
+          course_task_support: Number(raw.course_task_support),
+          course_goal_match: Number(raw.course_goal_match),
+          course_positive_help: Number(raw.course_positive_help),
+          course_thesis_match: Number(raw.course_thesis_match)
+        },
+
+        feedback: {
+          helpful_abilities: ensureArray(raw["helpful_abilities[]"]).map(v => v === "其他"
+            ? { item: "其他", note: (raw.helpful_abilities_other || "").trim() || null }
+            : { item: v, note: null }
+          ),
+
+          certs_to_improve: ensureArray(raw["certs_to_improve[]"]).map(v => {
+            if (v === "專業證照") return { item: "專業證照", note: (raw.cert_professional_note || "").trim() || null };
+            if (v === "其他") return { item: "其他", note: (raw.cert_other_note || "").trim() || null };
+            return { item: v, note: null };
+          }),
+
+          experience_use: ensureArray(raw["experience_use[]"]).map(v => v === "其他"
+            ? { item: "其他", note: (raw.experience_use_other || "").trim() || null }
+            : { item: v, note: null }
+          ),
+
+          org_understanding: Number(raw.org_understanding)
+        },
+
+        other_suggestions: { q1: s1, q2: s2, q3: s3, q4: s4 }
+      };
+
+      try {
+        const res = await fetch(POST_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok || !result.ok) {
+          alert("送出失敗：" + (result.error || `HTTP ${res.status}`));
+          return;
+        }
+
+        alert("送出成功！問卷編號：" + (result.student_survey_id ?? result.id ?? "(後端未回傳編號)"));
+        this.reset();
+        rerunAllTogglesAfterReset();
+      } catch (err) {
+        alert("無法連線到後端，請確認後端有在跑\n" + err);
+      }
+    });
+  </script>
+</body>
+</html>

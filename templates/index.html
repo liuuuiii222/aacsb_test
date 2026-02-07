@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>問卷系統首頁</title>
+  <style>
+    body{
+      font-family:"Microsoft JhengHei", Arial, sans-serif;
+      background:#f5f7fa;
+      margin:0;
+      padding:28px;
+      color:#333;
+    }
+    .wrap{
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card{
+      background:#fff;
+      border-radius: 12px;
+      padding: 22px 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.08);
+      margin-bottom: 16px;
+    }
+    h1{
+      margin: 0 0 8px;
+      color:#1a73e8;
+      font-size: 22px;
+    }
+    p{ margin: 8px 0; line-height: 1.8; }
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    a.btn{
+      display:block;
+      text-decoration:none;
+      text-align:center;
+      padding: 14px 14px;
+      border-radius: 10px;
+      border: 1px solid #dbe6ff;
+      background: #eef4ff;
+      color:#1a73e8;
+      font-weight: 700;
+      transition: .15s;
+    }
+    a.btn:hover{
+      transform: translateY(-1px);
+      background:#e2ecff;
+    }
+    .sub{
+      font-size: 13px;
+      color:#666;
+      margin-top: 6px;
+    }
+    @media (max-width: 720px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>問卷系統首頁</h1>
+      <p>請選擇要填寫或查看的問卷。</p>
+      <div class="grid">
+        <a class="btn" href="/student">學生滿意度問卷（填寫）</a>
+        <a class="btn" href="/employer">雇主滿意度問卷（填寫）</a>
+        <a class="btn" href="/admin/student">學生問卷後台（列表）</a>
+        <a class="btn" href="/admin/employer">雇主問卷後台（列表）</a>
+      </div>
+      <div class="sub">demo版</div>
+    </div>
+  </div>
+</body>
+</html>

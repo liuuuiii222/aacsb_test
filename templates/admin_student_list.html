@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>後台管理 - 學生問卷列表</title>
+  <style>
+    body{font-family:"Microsoft JhengHei", Arial, sans-serif;background:#f5f7fa;padding:24px;color:#333;}
+    .card{background:#fff;max-width:980px;margin:auto;border-radius:12px;padding:20px 24px;box-shadow:0 4px 10px rgba(0,0,0,.08);}
+    h1{margin:0 0 12px 0;color:#1a73e8;}
+    table{width:100%;border-collapse:collapse;margin-top:12px;}
+    th,td{border:1px solid #e0e0e0;padding:10px;text-align:left;vertical-align:middle;}
+    th{background:#155ab6;color:#fff;}
+    tr:nth-child(even){background:#fafafa;}
+    a{color:#1a73e8;text-decoration:none;font-weight:bold;}
+    a:hover{text-decoration:underline;}
+    .top-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+    .btn{
+      display:inline-block;background:#1a73e8;color:#fff;padding:8px 12px;border-radius:8px;
+      text-decoration:none;font-weight:bold;
+      border:none; cursor:pointer;
+    }
+    .btn:hover{background:#155ab6;}
+    .muted{color:#666;font-size:13px;margin:6px 0 0 0;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="top-actions">
+      <div>
+        <h1>後台管理：學生滿意度問卷</h1>
+        <p class="muted">點選「查看」可用預覽版式顯示該筆資料。可勾選多筆下載 PDF。</p>
+      </div>
+      <div>
+        <a class="btn" href="/">回首頁</a>
+        <a class="btn" href="/student">前往學生填寫表單</a>
+      </div>
+    </div>
+
+    <!-- 勾選多筆 -> POST 匯出 PDF -->
+    <form method="post" action="{{ url_for('admin_student_export_pdf') }}">
+      <div style="margin:12px 0; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn" type="submit">下載勾選項目 PDF</button>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:60px;">勾選</th>
+            <th style="width:190px;">填寫時間</th>
+            <th style="width:110px;">問卷編號</th>
+            <th style="width:140px;">學號</th>
+            <th style="width:120px;">姓名</th>
+            <th style="width:160px;">班級</th>
+            <th>實習單位</th>
+            <th style="width:110px;">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td><input type="checkbox" name="ids" value="{{ r.student_survey_id }}"></td>
+            <td>{{ r.submitted_at }}</td>
+            <td>{{ r.student_survey_id }}</td>
+            <td>{{ r.student_id }}</td>
+            <td>{{ r.student_name }}</td>
+            <td>{{ r.class_name }}</td>
+            <td>{{ r.internship_org }}</td>
+            <td><a href="/admin/student/{{ r.student_survey_id }}">查看</a></td>
+          </tr>
+          {% endfor %}
+
+          {% if rows|length == 0 %}
+          <tr><td colspan="8">目前沒有資料</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </form>
+  </div>
+</body>
+</html>

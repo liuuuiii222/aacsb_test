@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>國立臺北科技大學校外實習－雇主滿意度問卷</title>
+  <style>
+    /* 全局設定 */
+    body {
+      font-family: "Microsoft JhengHei", Arial, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* 標題 */
+    h1, h2 {
+      text-align: center;
+      color: #1a73e8;
+    }
+    h2 { margin-top: 0; }
+
+    /* 區塊 */
+    .section {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px 25px;
+      margin: 20px auto;
+      max-width: 900px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      word-wrap: break-word;
+    }
+
+    /* 文字與表單 */
+    p { line-height: 1.6; }
+
+    input[type="text"], input[type="number"], select, textarea {
+      padding: 6px 10px;
+      margin: 5px 0;
+      width: 100%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      transition: border 0.2s;
+    }
+    input[type="text"]:focus, select:focus, textarea:focus {
+      border-color: #1a73e8;
+      outline: none;
+    }
+
+    /* 按鈕 */
+    button {
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover { background-color: #155ab6; }
+
+    /* 通用表格 */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      word-wrap: break-word;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      word-break: break-word;
+      vertical-align: middle;
+    }
+
+    /* 評估項目靠左 */
+    table td:first-child, table th:first-child {
+      text-align: left;
+      padding-left: 15px;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    /* 表格樣式 */
+    table th {
+      background-color: #155ab6;
+      color: white;
+    }
+    table tr:nth-child(even) { background-color: #f9f9f9; }
+    table tr:hover { background-color: #e3f2fd; }
+
+    /* 單選與多選 */
+    .industry label, .checkbox-group label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+      word-wrap: break-word;
+    }
+
+    /* 學生資料表格 */
+    #studentTable input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      max-width: none;
+    }
+    #studentTable select { max-width: none; }
+
+    .score-desc {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .score-desc th, .score-desc td {
+      border: 1px solid #333;
+      padding: 10px;
+      vertical-align: middle;
+    }
+    .score-desc th {
+      background-color: #5f6165;
+      color: #fff;
+    }
+    .score-desc td:first-child {
+      font-weight: bold;
+      background-color: #f2f2f2;
+      text-align: center;
+    }
+    .submit-wrap{
+  text-align:center;
+  margin: 20px 0 10px;
+}
+.submit-wrap button{
+  min-width: 160px;
+}
+
+  </style>
+</head>
+
+<body>
+  <h1>國立臺北科技大學校外實習<br>雇主滿意度問卷調查表</h1>
+
+  <div class="section">
+    <p>
+      親愛的業界先進您好：<br>
+      非常感謝貴公司提供實習機會給予本校學生！為瞭解貴公司對本校學生在實習表現的滿意程度及對學校教學品質的建議及改善，希望透過此份問卷的反饋加強與企業的交流與溝通，與貴公司持續保持長久良好合作關係，尚祈不吝指教！本資料僅供整體分析使用，絕不外洩，請放心填答。
+      敬祝　鴻圖大展，事業順利！
+    </p>
+    <p style="text-align:right;">國立臺北科技大學 敬啟</p>
+  </div>
+
+  <form id="surveyForm" action="/submit" method="POST">
+    <!-- 基本資料 -->
+    <div class="section">
+      <h2>一、基本資料</h2>
+
+      <p><strong>產業類別（單選）：</strong></p>
+      <div class="industry">
+        <label><input type="radio" name="industry" value="AB 礦業及土石採取" required> AB 礦業及土石採取</label>
+        <label><input type="radio" name="industry" value="AD 電力及燃氣供應"> AD 電力及燃氣供應</label>
+        <label><input type="radio" name="industry" value="AF 營建工程"> AF 營建工程</label>
+        <label><input type="radio" name="industry" value="AC 製造業(包含科技半導體、生技醫藥、原料製造供應)"> AC 製造業(包含科技半導體、生技醫藥、原料製造供應)</label>
+        <label><input type="radio" name="industry" value="AE 用水供應汙染整治"> AE 用水供應汙染整治</label>
+        <label><input type="radio" name="industry" value="AG 批發零售"> AG 批發零售</label>
+        <label><input type="radio" name="industry" value="AI 住宿餐飲"> AI 住宿餐飲</label>
+        <label><input type="radio" name="industry" value="AJ 出版影音傳播資通訊服務(包含影視、電信、系統設置)"> AJ 出版影音傳播資通訊服務(包含影視、電信、系統設置)</label>
+        <label><input type="radio" name="industry" value="AL 金融保險"> AL 金融保險</label>
+        <label><input type="radio" name="industry" value="AN 不動產(包含都市更新與規劃)"> AN 不動產(包含都市更新與規劃)</label>
+        <label><input type="radio" name="industry" value="AM 專業科學及技術服務(包含設計、會計、法律、安規檢測)"> AM 專業科學及技術服務(包含設計、會計、法律、安規檢測)</label>
+        <label><input type="radio" name="industry" value="AR 藝術娛樂休閒服務(包含藝術、圖書、展演、體育育樂)"> AR 藝術娛樂休閒服務(包含藝術、圖書、展演、體育育樂)</label>
+        <label><input type="radio" name="industry" value="AP 教育業"> AP 教育業</label>
+
+        <label>
+          <input type="radio" name="industry" value="其他"> 其他：
+          <input type="text" name="industry_other" placeholder="請填寫其他產業">
+        </label>
+      </div>
+
+      <div class="flex-row">
+        <div>
+          <label>公司名稱：<input type="text" name="company_name" required></label>
+        </div>
+        <div>
+          <label>填表人職稱：<input type="text" name="job_title" required></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 學生資料 -->
+    <div class="section">
+      <h2>學生資料</h2>
+      <table id="studentTable">
+        <tr>
+          <td>系所</td>
+          <td>
+            <select name="dept[]" required>
+              <option value="">請選擇系所</option>
+              <option value="工業工程管理系">工業工程管理系</option>
+              <option value="經營管理系">經營管理系</option>
+              <option value="資訊與財金管理系">資訊與財金管理系</option>
+            </select>
+          </td>
+          <td>姓名：</td>
+          <td><input type="text" name="name[]" required></td>
+          <td><button type="button" onclick="deleteRow(this)">刪除</button></td>
+        </tr>
+      </table>
+      <button type="button" onclick="addStudent()">＋ 新增學生</button>
+    </div>
+
+    <!-- 二、學生實習表現 -->
+    <div class="section">
+      <h2>二、學生實習表現滿意度調查</h2>
+
+      <div class="section">
+        <h3 style="margin-bottom:10px;">評分說明</h3>
+        <table class="score-desc">
+          <tr>
+            <th rowspan="2" style="width:120px;">項目</th>
+            <th>5</th><th>4</th><th>3</th><th>2</th><th>1</th>
+          </tr>
+          <tr>
+            <td colspan="5" style="font-weight:bold;">
+              非常滿意 <span style="margin:0 10px;">──────────────▶</span> 不滿意
+            </td>
+          </tr>
+          <tr>
+            <td>說明</td>
+            <td>對於學生狀況感到非常滿意，目標可完成</td>
+            <td>對於學生狀況感到滿意，目標達成但可再更精進</td>
+            <td>對於學生狀況感到普通，達成部分目標仍可進步</td>
+            <td>學生狀況待加強，僅完成少數目標</td>
+            <td>學生狀況極需改善，不符合期待</td>
+          </tr>
+        </table>
+      </div>
+
+      <p>請依據學生整體實習表現，勾選您認為最符合的選項：</p>
+      <table>
+        <tr>
+          <th>評估項目</th>
+          <th>非常滿意</th>
+          <th>滿意</th>
+          <th>普通</th>
+          <th>不滿意</th>
+          <th>非常不滿意</th>
+        </tr>
+
+        <tr>
+          <td>1. 專業知識應用能力</td>
+          <td><input type="radio" name="q1" value="5" required></td>
+          <td><input type="radio" name="q1" value="4"></td>
+          <td><input type="radio" name="q1" value="3"></td>
+          <td><input type="radio" name="q1" value="2"></td>
+          <td><input type="radio" name="q1" value="1"></td>
+        </tr>
+        <tr>
+          <td>2. 專業實作應用能力</td>
+          <td><input type="radio" name="q2" value="5" required></td>
+          <td><input type="radio" name="q2" value="4"></td>
+          <td><input type="radio" name="q2" value="3"></td>
+          <td><input type="radio" name="q2" value="2"></td>
+          <td><input type="radio" name="q2" value="1"></td>
+        </tr>
+        <tr>
+          <td>3. 問題解決與獨立思考</td>
+          <td><input type="radio" name="q3" value="5" required></td>
+          <td><input type="radio" name="q3" value="4"></td>
+          <td><input type="radio" name="q3" value="3"></td>
+          <td><input type="radio" name="q3" value="2"></td>
+          <td><input type="radio" name="q3" value="1"></td>
+        </tr>
+        <tr>
+          <td>4. 溝通表達</td>
+          <td><input type="radio" name="q4" value="5" required></td>
+          <td><input type="radio" name="q4" value="4"></td>
+          <td><input type="radio" name="q4" value="3"></td>
+          <td><input type="radio" name="q4" value="2"></td>
+          <td><input type="radio" name="q4" value="1"></td>
+        </tr>
+        <tr>
+          <td>5. 人際合作</td>
+          <td><input type="radio" name="q5" value="5" required></td>
+          <td><input type="radio" name="q5" value="4"></td>
+          <td><input type="radio" name="q5" value="3"></td>
+          <td><input type="radio" name="q5" value="2"></td>
+          <td><input type="radio" name="q5" value="1"></td>
+        </tr>
+        <tr>
+          <td>6. 工作態度與職場倫理</td>
+          <td><input type="radio" name="q6" value="5" required></td>
+          <td><input type="radio" name="q6" value="4"></td>
+          <td><input type="radio" name="q6" value="3"></td>
+          <td><input type="radio" name="q6" value="2"></td>
+          <td><input type="radio" name="q6" value="1"></td>
+        </tr>
+        <tr>
+          <td>7. 出勤狀況</td>
+          <td><input type="radio" name="q7" value="5" required></td>
+          <td><input type="radio" name="q7" value="4"></td>
+          <td><input type="radio" name="q7" value="3"></td>
+          <td><input type="radio" name="q7" value="2"></td>
+          <td><input type="radio" name="q7" value="1"></td>
+        </tr>
+        <tr>
+          <td>8. 工作穩定與調適性</td>
+          <td><input type="radio" name="q8" value="5" required></td>
+          <td><input type="radio" name="q8" value="4"></td>
+          <td><input type="radio" name="q8" value="3"></td>
+          <td><input type="radio" name="q8" value="2"></td>
+          <td><input type="radio" name="q8" value="1"></td>
+        </tr>
+        <tr>
+          <td>9. 時間管理</td>
+          <td><input type="radio" name="q9" value="5" required></td>
+          <td><input type="radio" name="q9" value="4"></td>
+          <td><input type="radio" name="q9" value="3"></td>
+          <td><input type="radio" name="q9" value="2"></td>
+          <td><input type="radio" name="q9" value="1"></td>
+        </tr>
+        <tr>
+          <td>10. 整體表現符合需求</td>
+          <td><input type="radio" name="q10" value="5" required></td>
+          <td><input type="radio" name="q10" value="4"></td>
+          <td><input type="radio" name="q10" value="3"></td>
+          <td><input type="radio" name="q10" value="2"></td>
+          <td><input type="radio" name="q10" value="1"></td>
+        </tr>
+        <tr>
+          <td>11. 願意預聘學生為正式員工</td>
+          <td><input type="radio" name="q11" value="5" required></td>
+          <td><input type="radio" name="q11" value="4"></td>
+          <td><input type="radio" name="q11" value="3"></td>
+          <td><input type="radio" name="q11" value="2"></td>
+          <td><input type="radio" name="q11" value="1"></td>
+        </tr>
+      </table>
+
+      <div class="section">
+        <h3>12. 建議學生回校後應加強之能力（可複選）</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="improve[]" value="專業證照"> 專業證照</label>
+          說明：<input type="text" name="improve_note_license" placeholder="可填補充說明">
+
+          <label><input type="checkbox" name="improve[]" value="英文能力"> 英文能力</label>
+          說明：<input type="text" name="improve_note_english" placeholder="可填補充說明">
+
+          <label><input type="checkbox" name="improve[]" value="其他"> 其他</label>
+          說明：<input type="text" name="improve_note_other" placeholder="可填補充說明">
+        </div>
+      </div>
+    </div>
+
+    <!-- 三、課程規劃及合作滿意度 -->
+    <div class="section">
+      <h2>三、課程規劃及合作滿意度調查</h2>
+
+      <div class="section">
+        <h3 style="margin-bottom:10px;">評分說明</h3>
+        <table class="score-desc">
+          <tr>
+            <th rowspan="2" style="width:120px;">項目</th>
+            <th>5</th><th>4</th><th>3</th><th>2</th><th>1</th>
+          </tr>
+          <tr>
+            <td colspan="5" style="font-weight:bold;">
+              非常滿意 <span style="margin:0 10px;">──────────────▶</span> 不滿意
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <p>請依據整體觀察，勾選您認為最符合的選項：</p>
+      <table>
+        <tr>
+          <th>評估項目</th>
+          <th>非常滿意</th>
+          <th>滿意</th>
+          <th>普通</th>
+          <th>不滿意</th>
+          <th>非常不滿意</th>
+        </tr>
+
+        <!-- 每個 radio 都放在 td 內 -->
+        <tr>
+          <td>1. 經實習期間觀察，系所安排的專業課程符合業界需求</td>
+          <td><input type="radio" name="course_match_industry_needs" value="5" required></td>
+          <td><input type="radio" name="course_match_industry_needs" value="4"></td>
+          <td><input type="radio" name="course_match_industry_needs" value="3"></td>
+          <td><input type="radio" name="course_match_industry_needs" value="2"></td>
+          <td><input type="radio" name="course_match_industry_needs" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>2. 經實習期間觀察，學生表現符合系所訂定核心能力</td>
+          <td><input type="radio" name="student_meet_core_competency" value="5" required></td>
+          <td><input type="radio" name="student_meet_core_competency" value="4"></td>
+          <td><input type="radio" name="student_meet_core_competency" value="3"></td>
+          <td><input type="radio" name="student_meet_core_competency" value="2"></td>
+          <td><input type="radio" name="student_meet_core_competency" value="1"></td>
+        </tr>
+
+        <tr>
+          <td>3. 對系所在實習制度的行政配套措施（申請流程、甄選/面試流程、教師輔導等）感到滿意</td>
+          <td><input type="radio" name="internship_admin_satisfaction" value="5" required></td>
+          <td><input type="radio" name="internship_admin_satisfaction" value="4"></td>
+          <td><input type="radio" name="internship_admin_satisfaction" value="3"></td>
+          <td><input type="radio" name="internship_admin_satisfaction" value="2"></td>
+          <td><input type="radio" name="internship_admin_satisfaction" value="1"></td>
+        </tr>
+      </table>
+
+      <div class="section">
+        <h3>4. 後續合作可能性（可複選）</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="cooperation[]" value="長期校外實習合作"> 長期校外實習合作</label>
+          <label><input type="checkbox" name="cooperation[]" value="業師遴聘及協同教學"> 業師遴聘及協同教學</label>
+          <label><input type="checkbox" name="cooperation[]" value="教師赴公民營研習"> 教師赴公民營研習</label>
+          <label><input type="checkbox" name="cooperation[]" value="專利合作"> 專利合作</label>
+          <label><input type="checkbox" name="cooperation[]" value="產學計畫合作"> 產學計畫合作</label>
+          <label><input type="checkbox" name="cooperation[]" value="顧問遴聘"> 顧問遴聘</label>
+          <label><input type="checkbox" name="cooperation[]" value="其他"> 其他</label>
+          說明：<input type="text" name="cooperation_note" placeholder="勾選其他時可填">
+        </div>
+      </div>
+    </div>
+
+    <!-- 四、其他建議 -->
+    <div class="section">
+      <h2>四、其他建議或期許</h2>
+      <p>請提供您對學生或學校的其他建議或期許：</p>
+      <textarea name="other_suggestions" rows="5" required style="width:100%; max-width:none;"
+        placeholder="請在此填寫您的建議..."></textarea>
+    </div>
+
+    <div class="submit-wrap">
+  <button type="submit">送出問卷</button>
+</div>
+
+  </form>
+
+  <script>
+    // 這裡決定要打哪個後端路由
+    // 如果 Flask 是 /api/submit 就改成 "http://127.0.0.1:5000/api/submit"
+    const POST_URL = "http://127.0.0.1:5000/student/submit";
+
+
+    function addStudent() {
+      const table = document.getElementById("studentTable");
+      const row = table.insertRow();
+      row.innerHTML = `
+        <td>系所</td>
+        <td>
+          <select name="dept[]" required>
+            <option value="">請選擇系所</option>
+            <option value="工業工程管理系">工業工程管理系</option>
+            <option value="經營管理系">經營管理系</option>
+            <option value="資訊與財金管理系">資訊與財金管理系</option>
+          </select>
+        </td>
+        <td>姓名</td>
+        <td><input type="text" name="name[]" required></td>
+        <td><button type="button" onclick="deleteRow(this)">刪除</button></td>
+      `;
+    }
+
+    function deleteRow(button) {
+      const table = document.getElementById("studentTable");
+      if (table.rows.length <= 1) {
+        alert("至少需保留一位學生資料");
+        return;
+      }
+      button.closest("tr").remove();
+    }
+
+    function formDataToObject(formData) {
+      const obj = {};
+      formData.forEach((value, key) => {
+        if (obj[key] !== undefined) {
+          if (!Array.isArray(obj[key])) obj[key] = [obj[key]];
+          obj[key].push(value);
+        } else {
+          obj[key] = value;
+        }
+      });
+      return obj;
+    }
+
+    function ensureArray(v) {
+      if (v === undefined || v === null) return [];
+      return Array.isArray(v) ? v : [v];
+    }
+
+    function requireRadioGroups(raw, names) {
+      for (const n of names) {
+        if (!raw[n]) {
+          alert(`請完成必填題目：${n}`);
+          return false;
+        }
+      }
+      return true;
+    }
+
+    document.getElementById("surveyForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      if (!confirm("確定要送出問卷嗎？")) return;
+
+      const formData = new FormData(this);
+      const raw = formDataToObject(formData);
+
+      // 必填單選：q1~q11 + 三大題(課程)三題
+      const mustRadios = [
+        "q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11",
+        "course_match_industry_needs",
+        "student_meet_core_competency",
+        "internship_admin_satisfaction"
+      ];
+      if (!requireRadioGroups(raw, mustRadios)) return;
+
+      // 產業「其他」必填
+      if (raw.industry === "其他" && (!raw.industry_other || raw.industry_other.trim() === "")) {
+        alert("你選了「其他」產業，請填寫其他產業內容。");
+        return;
+      }
+
+      // students
+      const depts = ensureArray(raw["dept[]"]);
+      const names = ensureArray(raw["name[]"]);
+      const students = depts.map((d, i) => ({
+        department: d,
+        student_name: (names[i] || "").trim()
+      }));
+
+      // improvements
+      const improveArr = ensureArray(raw["improve[]"]);
+      const improvements = improveArr.map(item => ({
+        improvement_item: item,
+        improvement_note:
+          item === "專業證照" ? (raw.improve_note_license || null) :
+          item === "英文能力" ? (raw.improve_note_english || null) :
+          item === "其他" ? (raw.improve_note_other || null) :
+          null
+      }));
+
+      // cooperations
+      const cooperations = ensureArray(raw["cooperation[]"]);
+      if (cooperations.includes("其他") && (!raw.cooperation_note || raw.cooperation_note.trim() === "")) {
+        alert("你勾選了「合作可能性：其他」，請填寫其他合作說明。");
+        return;
+      }
+
+      // payload 對齊 MySQL schema
+      const payload = {
+        industry: raw.industry || null,
+        industry_other: raw.industry === "其他" ? (raw.industry_other || null) : null,
+        company_name: raw.company_name,
+        job_title: raw.job_title,
+        other_suggestions: raw.other_suggestions,
+
+        students,
+
+        performance: {
+          q1: Number(raw.q1), q2: Number(raw.q2), q3: Number(raw.q3), q4: Number(raw.q4), q5: Number(raw.q5),
+          q6: Number(raw.q6), q7: Number(raw.q7), q8: Number(raw.q8), q9: Number(raw.q9),
+          q10: Number(raw.q10), q11: Number(raw.q11)
+        },
+
+        course: {
+          course_match_industry_needs: Number(raw.course_match_industry_needs),
+          student_meet_core_competency: Number(raw.student_meet_core_competency),
+          internship_admin_satisfaction: Number(raw.internship_admin_satisfaction)
+        },
+
+        improvements,
+        cooperations,
+        cooperation_note: raw.cooperation_note || null
+      };
+
+      try {
+        const res = await fetch(POST_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok || !result.ok) {
+          alert("送出失敗：" + (result.error || `HTTP ${res.status}`));
+          return;
+        }
+
+        alert("送出成功！問卷編號：" + result.employer_survey_id);
+        this.reset();
+      } catch (err) {
+        alert("無法連線到後端，請確認後端有在跑\n" + err);
+      }
+    });
+  </script>
+</body>
+</html>
+

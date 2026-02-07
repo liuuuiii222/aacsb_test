@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>國立臺北科技大學校外實習－雇主滿意度問卷（預覽）</title>
+
+<style>
+body{
+    font-family:"Microsoft JhengHei", Arial, sans-serif;
+    background:#f5f5f5;
+    padding:30px;
+}
+.page{
+    background:#fff;
+    max-width:900px;
+    margin:auto;
+    padding:40px 50px;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+h1{
+    text-align:center;
+    font-size:22px;
+    line-height:1.6;
+}
+p{
+    font-size:14px;
+    line-height:1.8;
+    margin:6px 0;
+}
+.section-title{
+    font-weight:bold;
+    margin-top:25px;
+    font-size:16px;
+}
+.line{
+    display:inline-block;
+    min-width:250px;
+    border-bottom:1px solid #000;
+}
+.rating-head{
+    text-align:center;
+    margin:10px 0;
+    font-weight:bold;
+}
+.rating-scale{
+    text-align:center;
+    font-size:14px;
+    margin-bottom:10px;
+}
+.item{
+    margin-top:14px;
+}
+.score-row{
+    display:flex;
+    align-items:center;
+    margin-top:6px;
+}
+.score-row span{
+    display:inline-block;
+    width:60px;
+    text-align:center;
+    font-size:18px;
+}
+.footer{
+    margin-top:40px;
+    font-size:13px;
+}
+.buttons{
+    text-align:center;
+    margin-top:30px;
+}
+button{
+    padding:8px 16px;
+    margin:0 10px;
+    font-size:14px;
+    cursor:pointer;
+}
+@media print{
+    body{background:none;padding:0}
+    .page{box-shadow:none}
+    .buttons{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<h1>國立臺北科技大學校外實習<br>雇主滿意度問卷調查表</h1>
+
+<p>親愛的業界先進您好：</p>
+<p>
+非常感謝　貴公司提供實習機會給予本校學生！為瞭解　貴公司對本校學生在實習表現的滿意程度及對學校教學品質的建議及改善，希望透過此份問卷的反饋加強與企業的交流與溝通，與　貴公司持續保持長久良好合作關係，尚祈不吝指教！本資料僅供整體分析使用，絕不外洩，請放心填答。
+</p>
+<p>敬祝　鴻圖大展，事業順利！</p>
+<p style="text-align:right;">國立臺北科技大學　敬啟</p>
+
+<!-- 一、基本資料 -->
+<div class="section-title">一、基本資料</div>
+<p>
+  產業類別：
+  <span>
+    {{ survey.industry }}
+    {% if survey.industry == "其他" and survey.industry_other %}
+      （{{ survey.industry_other }}）
+    {% endif %}
+  </span>
+</p>
+<p>公司名稱：<span class="line">{{ survey.company_name }}</span></p>
+<p>填表人職稱：<span class="line">{{ survey.job_title }}</span></p>
+
+<p>學生系所</p>
+<div id="studentInfo">
+  {% for s in students %}
+    <p>系所：{{ s.department }}　姓名：{{ s.student_name }}</p>
+  {% endfor %}
+</div>
+<p>如欄位不敷使用，請自行增加。</p>
+
+<!-- 二、學生表現滿意度調查 -->
+<div class="section-title">二、學生表現滿意度調查：</div>
+
+<div class="rating-head">項目　　5　4　3　2　1</div>
+<div class="rating-scale">非常滿意 &lt;───────────────&gt; 不滿意</div>
+
+<p>對於學生狀況感到非常滿意，目標可完成</p>
+<p>對於學生狀況感到滿意，目標達成但可再更精進</p>
+<p>對於學生狀況感到普通，達成部分目標仍可進步</p>
+<p>學生狀況待加強，僅完成少數目標</p>
+<p>學生狀況極需改善，不符合期待</p>
+
+{% set perf_items = [
+  ("q1","專業知識應用能力"),
+  ("q2","專業實作應用能力"),
+  ("q3","問題解決與獨立思考"),
+  ("q4","溝通表達"),
+  ("q5","人際合作"),
+  ("q6","工作態度與職場倫理"),
+  ("q7","出勤狀況"),
+  ("q8","工作穩定與調適性"),
+  ("q9","時間管理"),
+  ("q10","整體表現符合需求"),
+  ("q11","願意預聘學生為正式員工")
+] %}
+
+<div id="scoreItems">
+  {% for key, title in perf_items %}
+    <div class="item">
+      {{ loop.index }}. {{ title }}
+      <div class="score-row">
+        {% for s in [5,4,3,2,1] %}
+          <span>
+            {% if performance[key] == s %}■{% else %}□{% endif %}{{ s }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<p>建議學生回校應再加強能力：</p>
+<p id="improve">
+  {% if improvements and improvements|length > 0 %}
+    {% for it in improvements %}
+      • {{ it.improvement_item }}{% if it.improvement_note %}（{{ it.improvement_note }}）{% endif %}<br>
+    {% endfor %}
+  {% else %}
+    （未填）
+  {% endif %}
+</p>
+
+<!-- 三、課程規劃及合作滿意度調查 -->
+<div class="section-title">三、課程規劃及合作滿意度調查：</div>
+
+{% set course_items = [
+  ("course_match_industry_needs", "經實習期間觀察，系所安排的專業課程符合業界需求"),
+  ("student_meet_core_competency", "經實習期間觀察，學生表現符合系所訂定核心能力"),
+  ("internship_admin_satisfaction", "對系所在實習制度的行政配套措施感到滿意")
+] %}
+
+<div id="courseItems">
+  {% for key, title in course_items %}
+    <div class="item">
+      {{ loop.index }}. {{ title }}
+      <div class="score-row">
+        {% for s in [5,4,3,2,1] %}
+          <span>
+            {% if course[key] == s %}■{% else %}□{% endif %}{{ s }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<p style="margin-top:20px;">後續合作可能性：</p>
+<div id="coop">
+  {% set coop_opts = ["長期校外實習合作","業師遴聘及協同教學","教師赴公民營研習","專利合作","產學計畫合作","顧問遴聘","其他"] %}
+  {% for opt in coop_opts %}
+    <p>
+      {% if opt in cooperations %}■{% else %}□{% endif %}
+      {{ opt }}
+      {% if opt == "其他" and opt in cooperations and coop_other_note %}
+        （{{ coop_other_note }}）
+      {% endif %}
+    </p>
+  {% endfor %}
+</div>
+
+<!-- 四、其他建議 -->
+<div class="section-title">四、其他建議或期許：</div>
+<p id="suggestion">{{ survey.other_suggestions }}</p>
+
+<div class="footer">
+本表流程：各系所 → 實習單位 / 用人部門單位 → 各系所 → 研發處<br>
+114.01
+</div>
+
+<div class="buttons">
+    <button onclick="history.back()">← 回上一頁修改</button>
+    <button onclick="downloadPDF()">下載 PDF</button>
+</div>
+
+</div>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function downloadPDF(){
+    html2pdf()
+        .from(document.querySelector(".page"))
+        .save("實習雇主滿意度問卷_預覽_{{ survey_id }}.pdf");
+}
+</script> -->
+
+<script>
+const surveyId = Number("{{ survey_id }}");
+fetch(`/api/surveys/${surveyId}`)
+  .then(r => r.json())
+  .then(res => {
+    if(!res.ok) { alert(res.error || "讀取失敗"); return; }
+
+    const data = res.data;
+    const main = data.main;
+    const students = data.students || [];
+    const perf = data.performance || {};
+    const course = data.course || {};
+    const improvements = data.improvements || [];
+    const cooperations = data.cooperations || [];
+
+    // 基本資料
+    document.getElementById("industry").innerText =
+      main.industry === "其他" ? (main.industry_other || "其他") : (main.industry || "");
+    document.getElementById("company").innerText = main.company_name || "";
+    document.getElementById("title").innerText = main.job_title || "";
+
+    // 學生
+    document.getElementById("studentInfo").innerHTML =
+      students.map(s => `<p>系所：${s.department}　姓名：${s.student_name}</p>`).join("");
+
+    // 二、學生表現（q1~q11）
+    const items = [
+      "專業知識應用能力","專業實作應用能力","問題解決與獨立思考","溝通表達","人際合作",
+      "工作態度與職場倫理","出勤狀況","工作穩定與調適性","時間管理","整體表現符合需求","願意預聘學生為正式員工"
+    ];
+    let scoreHTML = "";
+    items.forEach((t, i) => {
+      const key = "q" + (i+1);
+      scoreHTML += `<div class="item">${t}<div class="score-row">`;
+      for (let s = 5; s >= 1; s--) {
+        scoreHTML += `<span>${Number(perf[key]) === s ? "■" : "□"}${s}</span>`;
+      }
+      scoreHTML += `</div></div>`;
+    });
+    document.getElementById("scoreItems").innerHTML = scoreHTML;
+
+    // 建議回校加強（列出勾選+說明）
+    document.getElementById("improve").innerHTML =
+      improvements.length
+        ? improvements.map(x => `■ ${x.improvement_item}${x.improvement_note ? "（" + x.improvement_note + "）" : ""}`).join("<br>")
+        : "（未填）";
+
+    // 三、課程（三題你現在表單只有三題）
+    const courseMap = [
+      ["經實習期間觀察，系所安排的專業課程符合業界需求", "course_match_industry_needs"],
+      ["經實習期間觀察，學生表現符合系所訂定核心能力", "student_meet_core_competency"],
+      ["對系所在實習制度的行政配套措施感到滿意", "internship_admin_satisfaction"],
+    ];
+    let courseHTML = "";
+    courseMap.forEach(([label, key]) => {
+      courseHTML += `<div class="item">${label}<div class="score-row">`;
+      for (let s=5; s>=1; s--) {
+        courseHTML += `<span>${Number(course[key]) === s ? "■" : "□"}${s}</span>`;
+      }
+      courseHTML += `</div></div>`;
+    });
+    document.getElementById("courseItems").innerHTML = courseHTML;
+
+    // 合作可能性
+    document.getElementById("coop").innerHTML =
+      cooperations.length
+        ? cooperations.map(x => `■ ${x.cooperation_item}${x.cooperation_note ? "（" + x.cooperation_note + "）" : ""}`).join("<br>")
+        : "（未勾選）";
+
+    // 其他建議
+    document.getElementById("suggestion").innerText = main.other_suggestions || "";
+  })
+  .catch(err => alert("讀取失敗：" + err));
+</script>
+
+
+</body>
+</html>

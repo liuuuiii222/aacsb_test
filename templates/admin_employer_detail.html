@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>國立臺北科技大學校外實習－雇主滿意度問卷（預覽）</title>
+
+<style>
+/* ===== 螢幕預覽樣式 ===== */
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:"Microsoft JhengHei", Arial, sans-serif;
+  background:#f5f5f5;
+  padding:30px;
+  color:#000;
+}
+.page{
+  background:#fff;
+  max-width:900px;
+  margin:auto;
+  padding:40px 50px;
+  box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+h1{
+  text-align:center;
+  font-size:22px;
+  line-height:1.6;
+  margin:0 0 10px 0;
+}
+p{
+  font-size:14px;
+  line-height:1.8;
+  margin:6px 0;
+}
+.section-title{
+  font-weight:bold;
+  margin-top:25px;
+  font-size:16px;
+}
+.line{
+  display:inline-block;
+  min-width:250px;
+  border-bottom:1px solid #000;
+  padding-bottom:2px;
+}
+.rating-head{
+  text-align:center;
+  margin:10px 0;
+  font-weight:bold;
+}
+.rating-scale{
+  text-align:center;
+  font-size:14px;
+  margin-bottom:10px;
+}
+.item{
+  margin-top:14px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.score-row{
+  display:flex;
+  align-items:center;
+  gap:0;
+  margin-top:6px;
+}
+.score-row span{
+  display:inline-block;
+  width:60px;
+  text-align:center;
+  font-size:18px;
+  line-height:1.2;
+}
+.footer{
+  margin-top:40px;
+  font-size:13px;
+}
+.buttons{
+  text-align:center;
+  margin-top:30px;
+}
+button{
+  padding:8px 16px;
+  margin:0 10px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+/* ===== 只列印設定（重點） ===== */
+@page{
+  size: A4 portrait;
+  margin: 12mm;
+}
+@media print{
+  html, body{
+    background:#fff !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  /* 讓列印顏色/線條更接近螢幕 */
+  *{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .page{
+    max-width:none !important;
+    width:auto !important;
+    margin:0 !important;
+    padding:0 !important;          /* 讓 @page margin 接管 */
+    box-shadow:none !important;
+  }
+
+  .buttons{display:none !important;}
+
+  /* 避免被分頁切斷 */
+  .section-title,
+  #studentInfo,
+  #scoreItems,
+  #courseItems,
+  #coop,
+  .footer{
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .item{
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* 有些瀏覽器會自動縮放，這裡讓文字保持穩定 */
+  body{
+    font-size: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<h1>國立臺北科技大學校外實習<br>雇主滿意度問卷調查表</h1>
+
+<p>親愛的業界先進您好：</p>
+<p>
+非常感謝　貴公司提供實習機會給予本校學生！為瞭解　貴公司對本校學生在實習表現的滿意程度及對學校教學品質的建議及改善，希望透過此份問卷的反饋加強與企業的交流與溝通，與　貴公司持續保持長久良好合作關係，尚祈不吝指教！本資料僅供整體分析使用，絕不外洩，請放心填答。
+</p>
+<p>敬祝　鴻圖大展，事業順利！</p>
+<p style="text-align:right;">國立臺北科技大學　敬啟</p>
+
+<!-- 一、基本資料 -->
+<div class="section-title">一、基本資料</div>
+
+{% set industry_text = survey.industry %}
+{% if survey.industry == "其他" and survey.industry_other %}
+  {% set industry_text = survey.industry ~ "（" ~ survey.industry_other ~ "）" %}
+{% endif %}
+
+<p>產業類別：<span id="industry">{{ industry_text }}</span></p>
+<p>公司名稱：<span class="line" id="company">{{ survey.company_name }}</span></p>
+<p>填表人職稱：<span class="line" id="title">{{ survey.job_title }}</span></p>
+
+<p>學生系所</p>
+<div id="studentInfo">
+  {% if students|length == 0 %}
+    <p>（無學生資料）</p>
+  {% else %}
+    {% for s in students %}
+      <p>系所：{{ s.department }}　姓名：{{ s.student_name }}</p>
+    {% endfor %}
+  {% endif %}
+</div>
+<p>如欄位不敷使用，請自行增加。</p>
+
+<!-- 二、學生表現滿意度調查 -->
+<div class="section-title">二、學生表現滿意度調查：</div>
+
+<div class="rating-head">項目　　5　4　3　2　1</div>
+<div class="rating-scale">非常滿意 &lt;───────────────&gt; 不滿意</div>
+
+<p>對於學生狀況感到非常滿意，目標可完成</p>
+<p>對於學生狀況感到滿意，目標達成但可再更精進</p>
+<p>對於學生狀況感到普通，達成部分目標仍可進步</p>
+<p>學生狀況待加強，僅完成少數目標</p>
+<p>學生狀況極需改善，不符合期待</p>
+
+{% set perf_items = [
+  ("q1","專業知識應用能力"),
+  ("q2","專業實作應用能力"),
+  ("q3","問題解決與獨立思考"),
+  ("q4","溝通表達"),
+  ("q5","人際合作"),
+  ("q6","工作態度與職場倫理"),
+  ("q7","出勤狀況"),
+  ("q8","工作穩定與調適性"),
+  ("q9","時間管理"),
+  ("q10","整體表現符合需求"),
+  ("q11","願意預聘學生為正式員工")
+] %}
+
+<div id="scoreItems">
+  {% for key, title in perf_items %}
+    {% set v = performance.get(key) %}
+    <div class="item">{{ title }}
+      <div class="score-row">
+        {% for s in [5,4,3,2,1] %}
+          <span>{{ "■" if v == s else "□" }}{{ s }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<p>建議學生回校應再加強能力：</p>
+<p id="improve">
+  {% if improvements|length == 0 %}
+    （無勾選）
+  {% else %}
+    {% for it in improvements %}
+      • {{ it.improvement_item }}{% if it.improvement_note %}（{{ it.improvement_note }}）{% endif %}<br>
+    {% endfor %}
+  {% endif %}
+</p>
+
+<!-- 三、課程規劃及合作滿意度調查 -->
+<div class="section-title">三、課程規劃及合作滿意度調查：</div>
+
+{% set course_items = [
+  ("course_match_industry_needs","經實習期間觀察，系所安排的專業課程符合業界需求"),
+  ("student_meet_core_competency","經實習期間觀察，學生表現符合系所訂定核心能力"),
+  ("internship_admin_satisfaction","對系所在實習制度的行政配套措施（申請流程、甄選/面試流程、教師輔導等）感到滿意")
+] %}
+
+<div id="courseItems">
+  {% for key, title in course_items %}
+    {% set v = course.get(key) %}
+    <div class="item">{{ title }}
+      <div class="score-row">
+        {% for s in [5,4,3,2,1] %}
+          <span>{{ "■" if v == s else "□" }}{{ s }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<p style="margin-top:20px;">後續合作可能性：</p>
+<div id="coop">
+  {% if cooperations|length == 0 %}
+    <p>（無勾選）</p>
+  {% else %}
+    {% for c in cooperations %}
+      <p>■ {{ c.cooperation_item }}{% if c.cooperation_note %}（{{ c.cooperation_note }}）{% endif %}</p>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<!-- 四、其他建議 -->
+<div class="section-title">四、其他建議或期許：</div>
+<p id="suggestion">{{ survey.other_suggestions }}</p>
+
+<div class="footer">
+本表流程：各系所 → 實習單位 / 用人部門單位 → 各系所 → 研發處<br>
+114.01
+</div>
+
+<!-- 只留列印 -->
+<div class="buttons">
+  <button type="button" onclick="location.href='/admin/employer'">← 回列表</button>
+  <button type="button" onclick="window.print()">列印</button>
+</div>
+
+</div>
+</body>
+</html>
